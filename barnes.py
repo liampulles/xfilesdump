@@ -20,9 +20,16 @@ def barnesget(url):
     rawnames = page.split(r'<h2>Menu</h2>')[1].split('<article>')[1].split(r'</article>')[0][1:]
     nameslist = rawnames.split('<br>')
     nameslist2 = []
+    intclipsep = []
+    delscenep = []
     for i in nameslist:
         if i.count(r'&nbsp; &nbsp;') == 1:
             nameslist2.append(i.split(r'&nbsp; &nbsp;')[1])
+        if i.count('International Clips') == 1:
+            if i.count('International Clips From') == 0:
+                intclipsep.append(len(nameslist2))
+        if i.count('Deleted Scenes') == 1:
+            delscenep.append(len(nameslist2))
     nameslist = nameslist2
     #print(nameslist)
 
@@ -46,4 +53,4 @@ def barnesget(url):
             discs[disc_count]['episodes'][ep_count]['chapters'].append(i)
 
     #print(discs)
-    return discs, episodes
+    return discs, episodes, intclipsep, delscenep
